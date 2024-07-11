@@ -48,7 +48,7 @@ git clone https://github.com/IntelliSOFT-Consulting/fhir-reference-app.git
 
 ### Configuration
 #### FHIR Server Integration:
-If you have a FHIR server, update the baseUrl in the RetrofitClient to point to your server.
+If you have a FHIR server, update the baseUrl in the ```FHIRApplication.kt``` to point to your server.
 #### Usage
 Run the app:
 
