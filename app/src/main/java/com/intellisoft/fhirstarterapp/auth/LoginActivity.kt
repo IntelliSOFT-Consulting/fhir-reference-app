@@ -8,10 +8,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.intellisoft.fhirstarterapp.R
 import com.intellisoft.fhirstarterapp.databinding.ActivityLoginBinding
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
+import com.intellisoft.fhirstarterapp.model.LoginData
+import com.intellisoft.fhirstarterapp.model.User
+import com.intellisoft.fhirstarterapp.network.RetrofitCallsAuthentication
 
 class LoginActivity : AppCompatActivity() {
-
-     private lateinit var binding: ActivityLoginBinding
+    private var retrofitCallsAuthentication = RetrofitCallsAuthentication()
+    private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,5 +25,48 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.apply {
+            loginButton.apply {
+                setOnClickListener {
+                    validataData()
+                }
+
+            }
+
+            signupLink.apply {
+
+            }
+        }
+    }
+
+    private fun validataData() {
+        val emailText = binding.email.text.toString()
+        val passwordText = binding.password.text.toString()
+
+        if (emailText.isEmpty()) {
+            binding.apply {
+                teiEmail.error = "Please enter email address"
+                email.requestFocus()
+            }
+            return
+        }
+        if (passwordText.isEmpty()) {
+            binding.apply {
+                teiPassword.error = "Please enter password"
+                password.requestFocus()
+            }
+            return
+        }
+
+        val data = User(
+            User = LoginData(
+                username = emailText, password = passwordText
+            )
+        )
+        retrofitCallsAuthentication.loginUser(
+            this, data
+        )
+
     }
 }

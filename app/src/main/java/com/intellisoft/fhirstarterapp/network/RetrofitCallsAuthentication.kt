@@ -82,7 +82,7 @@ class RetrofitCallsAuthentication {
                     } else {
                         apiInterface.errorBody()?.let {
                             val errorBody = JSONObject(it.string())
-                            messageToast = errorBody.getString("error")
+                            messageToast = errorBody.getString("message")
                         }
                     }
 

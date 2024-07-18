@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface Interface {
 
     @POST("users/login")
-    @Headers("Content-Type: application/json")
+    @Headers("Accept: application/json")
 
     suspend fun signInUser(
         @Body data: User
