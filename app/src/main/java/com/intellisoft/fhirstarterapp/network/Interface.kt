@@ -20,7 +20,7 @@ interface Interface {
     ): Response<LoginResponse>
 
 //    @POST("users/register")
-//    suspend fun signInUser(
+//    suspend fun signup(
 //        @Body dbSignIn: DbSignIn
 //    ): Response<DbSignInResponse>
 //
@@ -28,6 +28,6 @@ interface Interface {
 //    suspend fun getUserInfo(
 //        @Header("Authorization") token: String, // Add this line to pass the Bearer Token
 //    ): Response<DbUserInfoResponse>
-//
+
 
 }

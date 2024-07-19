@@ -47,11 +47,11 @@ class RetrofitCallsAuthentication {
             CoroutineScope(Dispatchers.IO + job).launch {
 
                 val baseUrl = context.getString(UrlData.BASE_URL.message)
+
                 val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
                 try {
-
-
                     val apiInterface = apiService.signInUser(data)
+
                     if (apiInterface.isSuccessful) {
 
                         val statusCode = apiInterface.code()
@@ -60,9 +60,10 @@ class RetrofitCallsAuthentication {
                         if (statusCode == 200 || statusCode == 201) {
 
                             if (body != null) {
-
                                 val accessToken = body.token
                                 val user = body.user
+
+                                //Save to shared prefs
 
                                 messageToast = "Login successful.."
 
@@ -79,7 +80,10 @@ class RetrofitCallsAuthentication {
                         } else {
                             messageToast = "Error: The request was not successful"
                         }
-                    } else {
+                    }
+                    else {
+                       val errorCode= apiInterface.code()
+
                         apiInterface.errorBody()?.let {
                             val errorBody = JSONObject(it.string())
                             messageToast = errorBody.getString("message")
