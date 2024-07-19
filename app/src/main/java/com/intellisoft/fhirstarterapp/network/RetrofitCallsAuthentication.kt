@@ -5,9 +5,11 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.google.gson.Gson
 import com.intellisoft.fhirstarterapp.MainActivity
 import com.intellisoft.fhirstarterapp.fhir.enums.UrlData
 import com.intellisoft.fhirstarterapp.model.User
+import com.intellisoft.fhirstarterapp.utils.LocalData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -65,6 +67,13 @@ class RetrofitCallsAuthentication {
 
                                 //Save to shared prefs
 
+                                LocalData().saveSharedPref("access_token", accessToken, context)
+                                LocalData().saveSharedPref("isLoggedIn", "true", context)
+                                LocalData().saveSharedPref(
+                                    "user_info",
+                                    Gson().toJson(user),
+                                    context
+                                )
                                 messageToast = "Login successful.."
 
                                 val intent = Intent(context, MainActivity::class.java)
@@ -80,9 +89,8 @@ class RetrofitCallsAuthentication {
                         } else {
                             messageToast = "Error: The request was not successful"
                         }
-                    }
-                    else {
-                       val errorCode= apiInterface.code()
+                    } else {
+                        val errorCode = apiInterface.code()
 
                         apiInterface.errorBody()?.let {
                             val errorBody = JSONObject(it.string())

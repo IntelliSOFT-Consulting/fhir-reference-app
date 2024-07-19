@@ -1,20 +1,43 @@
 package com.intellisoft.fhirstarterapp.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.intellisoft.fhirstarterapp.MainActivity
 import com.intellisoft.fhirstarterapp.R
 import com.intellisoft.fhirstarterapp.databinding.ActivityLoginBinding
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
 import com.intellisoft.fhirstarterapp.model.LoginData
 import com.intellisoft.fhirstarterapp.model.User
 import com.intellisoft.fhirstarterapp.network.RetrofitCallsAuthentication
+import com.intellisoft.fhirstarterapp.utils.LocalData
 
 class LoginActivity : AppCompatActivity() {
     private var retrofitCallsAuthentication = RetrofitCallsAuthentication()
     private lateinit var binding: ActivityLoginBinding
+
+    override fun onStart() {
+        super.onStart()
+        try {
+            val isLoggedIn = LocalData().getSharedPref("isLoggedIn", this)
+            if (isLoggedIn != null) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+
+                this@LoginActivity.finish()
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
