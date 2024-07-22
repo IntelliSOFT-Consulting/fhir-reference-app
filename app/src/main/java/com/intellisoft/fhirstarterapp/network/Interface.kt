@@ -1,6 +1,7 @@
 package com.intellisoft.fhirstarterapp.network
 
 import com.intellisoft.fhirstarterapp.model.LoginResponse
+import com.intellisoft.fhirstarterapp.model.RegistrationResponse
 import com.intellisoft.fhirstarterapp.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -19,15 +20,21 @@ interface Interface {
         @Body data: User
     ): Response<LoginResponse>
 
-//    @POST("users/register")
-//    suspend fun signup(
-//        @Body dbSignIn: DbSignIn
-//    ): Response<DbSignInResponse>
-//
+   @POST("users/register")
+   @Headers("Accept: application/json")
+    suspend fun registerUser(
+        @Body dbSignIn: User
+    ): Response<RegistrationResponse>
+
+
+
 //    @GET("users/profile/")
 //    suspend fun getUserInfo(
 //        @Header("Authorization") token: String, // Add this line to pass the Bearer Token
 //    ): Response<DbUserInfoResponse>
 
 
+
+
 }
+
