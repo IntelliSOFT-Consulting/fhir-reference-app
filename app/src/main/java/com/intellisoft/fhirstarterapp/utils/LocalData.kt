@@ -10,8 +10,8 @@ class LocalData {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString(key, value);
-        editor.apply();
+        editor.putString(key, value)
+        editor.apply()
     }
 
     fun getSharedPref(key: String, context: Context): String? {
@@ -25,8 +25,8 @@ class LocalData {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.remove(key);
-        editor.apply();
+        editor.remove(key)
+        editor.apply()
 
     }
 
