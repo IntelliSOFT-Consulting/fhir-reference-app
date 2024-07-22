@@ -8,13 +8,43 @@ package com.intellisoft.fhirstarterapp.model
  */
 
 data class User(
-    val User: LoginData
+    val User: PayloadData
 )
 
-data class LoginData(
-    val username: String,
-    val password: String
+data class PayloadData(
+    val username: String="",
+    val password: String="",
+    val name: String="",
+    val telephone: String="",
+    val email: String="",
+    val confirm_password: String =""
 )
+
+data class RegistrationResponse(
+    val status: String,
+    val user: UserRegistrationInfo,
+    val validation: Validation?
+)
+
+data class UserRegistrationInfo(
+    val User: PayloadData
+)
+
+data class Validation(
+    val username: List<String>?,
+    val email: List<String>?
+)
+
+
+//{
+//    "User": {
+//    "username": "test2545",
+//    "name": "Test 254",
+//    "email": "test2545@gmail.com",
+//    "password": "test254",
+//    "confirm_password": "test254"
+//}
+//}
 
 /**
  * Successful response
@@ -48,3 +78,14 @@ data class Patient(
     val dob: String,
     val gender: String
 )
+
+//data class RegistrationInfo(
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//
+//
+//)
