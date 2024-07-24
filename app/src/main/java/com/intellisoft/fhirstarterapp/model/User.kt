@@ -79,3 +79,13 @@ data class Patient(
     val gender: String
 )
 
+//data class RegistrationInfo(
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//    val firstName: String,
+//
+//
+//)

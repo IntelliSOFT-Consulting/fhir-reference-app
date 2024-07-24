@@ -2,10 +2,6 @@ package com.intellisoft.fhirstarterapp.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,10 +18,6 @@ import com.intellisoft.fhirstarterapp.utils.LocalData
 class LoginActivity : AppCompatActivity() {
     private var retrofitCallsAuthentication = RetrofitCallsAuthentication()
     private lateinit var binding: ActivityLoginBinding
-
-    var email: EditText? = null
-    var password: EditText? = null
-    var loginButton: Button? = null
 
     override fun onStart() {
         super.onStart()
@@ -60,27 +52,35 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             loginButton.apply {
                 setOnClickListener {
-                    validateData()
+                    validataData()
                 }
 
             }
 
-            signupLink.setOnClickListener{
-                startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+            signupLink.apply {
+
             }
         }
-
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
-        loginButton = findViewById(R.id.login_button)
-
-        email?.addTextChangedListener(textWatcher)
-        password?.addTextChangedListener(textWatcher)
     }
 
-    private fun validateData() {
+    private fun validataData() {
         val emailText = binding.email.text.toString()
         val passwordText = binding.password.text.toString()
+
+        if (emailText.isEmpty()) {
+            binding.apply {
+                teiEmail.error = "Please enter email address"
+                email.requestFocus()
+            }
+            return
+        }
+        if (passwordText.isEmpty()) {
+            binding.apply {
+                teiPassword.error = "Please enter password"
+                password.requestFocus()
+            }
+            return
+        }
 
         val data = User(
             User = PayloadData(
@@ -88,21 +88,8 @@ class LoginActivity : AppCompatActivity() {
             )
         )
         retrofitCallsAuthentication.loginUser(
-            this@LoginActivity, data
+            this, data
         )
 
-    }
-
-    private val textWatcher: TextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            // Get the content of both the edit texts
-            val emailInput = email!!.text.toString()
-            val passwordInput = password!!.text.toString()
-            // Check whether both the fields are empty or not
-            loginButton?.setEnabled(emailInput.isNotEmpty() && passwordInput.isNotEmpty())
-        }
-
-        override fun afterTextChanged(s: Editable) {}
     }
 }
