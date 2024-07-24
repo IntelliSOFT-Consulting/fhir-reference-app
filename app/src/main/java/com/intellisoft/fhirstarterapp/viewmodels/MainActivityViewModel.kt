@@ -1,4 +1,5 @@
 package com.intellisoft.fhirstarterapp.viewmodels
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.fhir.search.Order
 import com.google.android.fhir.search.search
+import com.google.android.fhir.sync.CurrentSyncJobStatus
 import com.google.android.fhir.sync.Sync
 import com.google.android.fhir.sync.SyncJobStatus
 import com.intellisoft.fhirstarterapp.fhir.AppFhirSyncWorker
@@ -18,19 +20,18 @@ import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.Patient
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
-    private val _pollState = MutableSharedFlow<SyncJobStatus>()
+    private val _pollState = MutableSharedFlow<CurrentSyncJobStatus>()
 
-    val pollState: Flow<SyncJobStatus>
+    val pollState: Flow<CurrentSyncJobStatus>
         get() = _pollState
 
     val liveSearchedPatients = MutableLiveData<List<Patient>>()
 
     init {
-//        updatePatientList { getSearchResults() }
+        updatePatientList { getSearchResults() }
     }
 
     fun triggerOneTimeSync() {
-        // Add code to start sync
         viewModelScope.launch {
             Sync.oneTimeSync<AppFhirSyncWorker>(getApplication())
                 .shareIn(this, SharingStarted.Eagerly, 10)
@@ -61,11 +62,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch { liveSearchedPatients.value = search() }
     }
 
-//    private suspend fun getSearchResults(): List<Patient> {
-//        val patients: MutableList<Patient> = mutableListOf()
+    private suspend fun getSearchResults(): List<Patient> {
+        val patients: MutableList<Patient> = mutableListOf()
 //        FhirApplication.fhirEngine(this.getApplication())
 //            .search<Patient> { sort(Patient.GIVEN, Order.ASCENDING) }
 //            .let { patients.addAll(it.map { it.resource }) }
-//        return patients
-//    }
+        return patients
+    }
+
 }

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.intellisoft.fhirstarterapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -26,18 +26,16 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    packaging { resources.excludes.addAll(listOf("META-INF/ASL-2.0.txt", "META-INF/LGPL-3.0.txt")) }
-    kotlin { jvmToolchain(11) }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
+
     buildFeatures {
         viewBinding = true
     }
+    packaging { resources.excludes.addAll(listOf("META-INF/ASL-2.0.txt", "META-INF/LGPL-3.0.txt")) }
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_11)
+    }
+    kotlin { jvmToolchain(11) }
 }
 
 dependencies {
@@ -52,6 +50,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.datastore.preferences.core.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    implementation("com.google.android.fhir:engine:0.1.0-beta05")
-
+    implementation(libs.engine)
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 }

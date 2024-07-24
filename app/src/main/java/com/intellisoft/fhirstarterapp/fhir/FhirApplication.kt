@@ -14,6 +14,10 @@ class FhirApplication: Application() {
 
     private val fhirEngine: FhirEngine by
     lazy { FhirEngineProvider.getInstance(this) }
+
+    private val dataStore by lazy { DemoDataStore(this) }
+
+
     override fun onCreate() {
         super.onCreate()
 
@@ -22,7 +26,7 @@ class FhirApplication: Application() {
                 enableEncryptionIfSupported = true,
                 DatabaseErrorStrategy.RECREATE_AT_OPEN,
                 ServerConfiguration(
-                    baseUrl = "http://10.0.2.2:8080/fhir/",
+                    baseUrl = "https://hapi.fhir.org/baseR4/",
                     httpLogger =
                     HttpLogger(
                         HttpLogger.Configuration(
@@ -40,5 +44,8 @@ class FhirApplication: Application() {
     companion object {
         fun fhirEngine(context: Context) =
             (context.applicationContext as FhirApplication).fhirEngine
+
+
+        fun dataStore(context: Context) = (context.applicationContext as FhirApplication).dataStore
     }
 }

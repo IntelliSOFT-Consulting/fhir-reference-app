@@ -10,7 +10,7 @@ import com.intellisoft.fhirstarterapp.MainActivity
 import com.intellisoft.fhirstarterapp.R
 import com.intellisoft.fhirstarterapp.databinding.ActivityLoginBinding
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
-import com.intellisoft.fhirstarterapp.model.LoginData
+import com.intellisoft.fhirstarterapp.model.PayloadData
 import com.intellisoft.fhirstarterapp.model.User
 import com.intellisoft.fhirstarterapp.network.RetrofitCallsAuthentication
 import com.intellisoft.fhirstarterapp.utils.LocalData
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val data = User(
-            User = LoginData(
+            User = PayloadData(
                 username = emailText, password = passwordText
             )
         )

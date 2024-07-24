@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.fhir.sync.Sync
+
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
 import com.intellisoft.fhirstarterapp.fhir.AppFhirSyncWorker
 import com.intellisoft.fhirstarterapp.viewmodels.MainActivityViewModel
@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainActivityViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,9 +35,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Check your mail", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
+            viewModel.triggerOneTimeSync()
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -49,10 +52,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-       viewModel. triggerOneTimeSync()
+        observeLastSyncTime()
+        viewModel.triggerOneTimeSync()
     }
 
+    private fun observeLastSyncTime() {
+
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
