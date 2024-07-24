@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
+        binding.apply {
+
+        }
+
         binding.appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Check your mail", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)

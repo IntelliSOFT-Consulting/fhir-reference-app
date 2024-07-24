@@ -72,7 +72,7 @@
                 android:id="@+id/telephone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
+                android:inputType="phone"
                 android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +89,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
+                android:inputType="textEmailAddress"
                 android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,6 +135,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/register"
             android:textColor="@android:color/white"
+            android:enabled="false"
             app:cornerRadius="20dp" />
 
         <TextView
