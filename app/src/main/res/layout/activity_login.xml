@@ -36,7 +36,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
+                android:inputType="textEmailAddress"
                 android:textSize="12sp" />
 
 
@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="@string/password"
+            app:passwordToggleEnabled="true"
             app:boxBackgroundMode="outline">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -69,6 +70,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/login"
             android:textColor="@android:color/white"
+            android:enabled="false"
             app:cornerRadius="20dp" />
 
         <TextView
