@@ -14,7 +14,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
-import com.intellisoft.fhirstarterapp.fhir.AppFhirSyncWorker
 import com.intellisoft.fhirstarterapp.viewmodels.MainActivityViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn

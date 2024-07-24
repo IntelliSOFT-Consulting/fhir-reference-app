@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.intellisoft.fhirstarterapp.ui.gallery.GalleryFragment"
+        android:name="com.intellisoft.fhirstarterapp.ui.patients.PatientsFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_patients" />
 
     <fragment
         android:id="@+id/nav_slideshow"

@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    implementation(libs.engine)
+    implementation("com.google.android.fhir:engine:0.1.0-beta03")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 }
