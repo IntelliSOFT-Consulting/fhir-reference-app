@@ -60,8 +60,12 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+    // FHIR Libraries
+    implementation(libs.engine)
+    implementation(libs.androidx.datastore.preferences)
 
-    implementation("com.google.android.fhir:engine:0.1.0-beta03")
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    // FHIR SDC
+    implementation(libs.data.capture)
+    implementation(libs.androidx.fragment.ktx)
 
 }

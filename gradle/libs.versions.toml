@@ -1,6 +1,8 @@
 [versions]
 agp = "8.4.1"
+dataCapture = "1.1.0"
 engine = "1.0.0"
+fragmentKtx = "1.8.2"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -22,7 +24,10 @@ datastorePreferencesCoreJvm = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastoreCoreAndroid" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+data-capture = { module = "com.google.android.fhir:data-capture", version.ref = "dataCapture" }
 engine = { module = "com.google.android.fhir:engine", version.ref = "engine" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
