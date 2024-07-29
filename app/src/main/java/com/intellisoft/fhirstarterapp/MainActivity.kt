@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.intellisoft.fhirstarterapp.databinding.ActivityMainBinding
 import com.intellisoft.fhirstarterapp.ui.patients.PatientRegistrationActivity
+import com.intellisoft.fhirstarterapp.ui.patients.PatientRegistrationActivity.Companion.QUESTIONNAIRE_FILE_PATH_KEY
 import com.intellisoft.fhirstarterapp.viewmodels.MainActivityViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
@@ -40,12 +41,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.appBarMain.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Check your mail", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null)
-//                .setAnchorView(R.id.fab).show()
-            viewModel.triggerOneTimeSync()
 
-            startActivity(Intent(this@MainActivity, PatientRegistrationActivity::class.java))
+            viewModel.triggerOneTimeSync()
+            val intent = Intent(this, PatientRegistrationActivity::class.java).apply {
+                putExtra(QUESTIONNAIRE_FILE_PATH_KEY, "registration.json")
+            }
+            startActivity(intent)
+
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView

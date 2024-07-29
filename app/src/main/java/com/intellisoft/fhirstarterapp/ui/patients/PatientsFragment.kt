@@ -51,6 +51,17 @@ class PatientsFragment : Fragment() {
         return root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        try {
+            patientListViewModel.searchPatientsByName("")
+            loadPatients()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
 
@@ -62,6 +73,11 @@ class PatientsFragment : Fragment() {
             )
                 .get(PatientViewModel::class.java)
 
+        loadPatients()
+
+    }
+
+    private fun loadPatients() {
 
         patientListViewModel.liveSearchedPatients.observe(viewLifecycleOwner) { k ->
             val uniquePatients = mutableSetOf<String>() // Using a set to ensure uniqueness
@@ -73,7 +89,6 @@ class PatientsFragment : Fragment() {
 
             adapter1.notifyDataSetChanged()
         }
-
     }
 
     override fun onDestroyView() {
