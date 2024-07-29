@@ -20,7 +20,6 @@ class FhirApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         FhirEngineProvider.init(
             FhirEngineConfiguration(
                 enableEncryptionIfSupported = false,
@@ -37,7 +36,6 @@ class FhirApplication : Application() {
             )
         )
         Sync.oneTimeSync<FhirSyncWorker>(this)
-
 
     }
 

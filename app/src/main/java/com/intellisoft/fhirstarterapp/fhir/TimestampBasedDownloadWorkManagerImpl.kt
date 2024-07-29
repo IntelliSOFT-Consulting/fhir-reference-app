@@ -1,9 +1,10 @@
 package com.intellisoft.fhirstarterapp.fhir
 
 
+
 import com.google.android.fhir.sync.DownloadWorkManager
-import com.google.android.fhir.sync.Request
 import com.google.android.fhir.sync.SyncDataParams
+import com.google.android.fhir.sync.download.DownloadRequest
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -12,23 +13,17 @@ import java.util.Locale
 import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.ListResource
-import org.hl7.fhir.r4.model.Location
 import org.hl7.fhir.r4.model.OperationOutcome
 import org.hl7.fhir.r4.model.Reference
 import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.r4.model.ResourceType
-import org.hl7.fhir.r4.model.ServiceRequest
 
 class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore) :
     DownloadWorkManager {
     private val resourceTypeList = ResourceType.values().map { it.name }
-    private val urls = LinkedList(
-        listOf(
-            "Patient?_sort=_lastUpdated",
-        )
-    )
+    private val urls = LinkedList(listOf("Patient?address-city=NAIROBI&_sort=_lastUpdated"))
 
-    override suspend fun getNextRequest(): Request? {
+    override suspend fun getNextRequest(): DownloadRequest? {
         var url = urls.poll() ?: return null
 
         val resourceTypeToDownload =
@@ -36,22 +31,15 @@ class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore
         dataStore.getLastUpdateTimestamp(resourceTypeToDownload)?.let {
             url = affixLastUpdatedTimestamp(url, it)
         }
-        return Request.of(url)
+        return DownloadRequest.of(url)
     }
 
     override suspend fun getSummaryRequestUrls(): Map<ResourceType, String> {
-        return urls.associate { url ->
-            val resourceType = ResourceType.fromCode(url.substringBefore("?"))
-            val summaryParam = if (resourceType == ResourceType.Patient) {
-                "&${SyncDataParams.SUMMARY_KEY}=${SyncDataParams.SUMMARY_COUNT_VALUE}"
-            } else {
-                ""
-            }
-
-            resourceType to url.plus(summaryParam)
+        return urls.associate {
+            ResourceType.fromCode(it.substringBefore("?")) to
+                    it.plus("&${SyncDataParams.SUMMARY_KEY}=${SyncDataParams.SUMMARY_COUNT_VALUE}")
         }
     }
-
 
     override suspend fun processResponse(response: Resource): Collection<Resource> {
         // As per FHIR documentation :
@@ -77,14 +65,10 @@ class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore
         // If the resource returned is a Bundle, check to see if there is a "next" relation referenced
         // in the Bundle.link component, if so, append the URL referenced to list of URLs to download.
         if (response is Bundle) {
-
-            val nextUrl =
-                response.link.firstOrNull { component -> component.relation == "next" }?.url
+            val nextUrl = response.link.firstOrNull { component -> component.relation == "next" }?.url
             if (nextUrl != null) {
                 urls.add(nextUrl)
             }
-
-
         }
 
         // Finally, extract the downloaded resources from the bundle.
@@ -98,7 +82,6 @@ class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore
         return bundleCollection
     }
 
-
     private suspend fun extractAndSaveLastUpdateTimestampToFetchFutureUpdates(
         resources: List<Resource>,
     ) {
@@ -111,7 +94,6 @@ class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore
                     map.value.maxOfOrNull { it.meta.lastUpdated }?.toTimeZoneString() ?: "",
                 )
             }
-
     }
 }
 
@@ -129,6 +111,12 @@ private fun affixLastUpdatedTimestamp(url: String, lastUpdated: String): String 
     // https://hl7.org/fhir/operation-patient-everything.html
     if (downloadUrl.contains("\$everything")) {
         downloadUrl = "$downloadUrl?_since=$lastUpdated"
+    }
+
+    // Affix lastUpdate to non-$everything queries as per:
+    // https://hl7.org/fhir/operation-patient-everything.html
+    if (!downloadUrl.contains("\$everything")) {
+        downloadUrl = "$downloadUrl&_lastUpdated=gt$lastUpdated"
     }
 
     // Do not modify any URL set by a server that specifies the token of the page to return.
