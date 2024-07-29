@@ -83,7 +83,7 @@ class PatientViewModel(application: Application, private val fhirEngine: FhirEng
                 count = 1000
                 from = 0
             }
-            .mapIndexed { index, fhirPatient -> fhirPatient.toPatientItem(index + 1) }
+            .mapIndexed { index, fhirPatient -> fhirPatient.resource.toPatientItem(index + 1) }
             .let { patients.addAll(it) }
         return patients
     }
@@ -140,7 +140,7 @@ internal fun Patient.toPatientItem(position: Int): PatientViewModel.PatientItem 
     return PatientViewModel.PatientItem(
         id = position.toString(),
         resourceId = patientId,
-        name = name,
+        name = name ?: "",
         gender = gender ?: "",
         dob = dob,
         phone = phone ?: "",
