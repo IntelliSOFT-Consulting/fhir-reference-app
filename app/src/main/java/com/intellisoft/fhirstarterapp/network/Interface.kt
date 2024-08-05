@@ -1,8 +1,11 @@
 package com.intellisoft.fhirstarterapp.network
 
+import com.intellisoft.fhirstarterapp.model.CountyResponse
+import com.intellisoft.fhirstarterapp.model.DesignationResponse
 import com.intellisoft.fhirstarterapp.model.LoginResponse
 import com.intellisoft.fhirstarterapp.model.RegistrationResponse
 import com.intellisoft.fhirstarterapp.model.User
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,6 +29,21 @@ interface Interface {
         @Body dbSignIn: User
     ): Response<RegistrationResponse>
 
+//    @GET("users/counties")
+//    @Headers("Accept: application/json")
+//    suspend fun searchCounties(
+//        @Body query: SearchCountyQuery
+//    ): Call<SearchCountyQuery.Data>
+
+    @GET("counties")
+    @Headers("Accept: application/json")
+    suspend fun loadCounties():
+        Response<CountyResponse>
+
+    @GET("designations")
+    @Headers("Accept: application/json")
+    suspend fun loadDesignations():
+            Response<DesignationResponse>
 
 
 //    @GET("users/profile/")

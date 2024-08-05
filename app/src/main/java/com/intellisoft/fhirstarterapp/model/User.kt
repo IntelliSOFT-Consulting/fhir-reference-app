@@ -13,18 +13,37 @@ data class User(
 
 data class PayloadData(
     val username: String="",
-    val password: String="",
     val name: String="",
     val telephone: String="",
     val email: String="",
+    val designationId: String="",
+    val countyId: String="",
+    val password: String="",
     val confirm_password: String =""
 )
 
 data class RegistrationResponse(
     val status: String,
     val user: UserRegistrationInfo,
-    val validation: Validation?
+    val validation: Map<String, List<String>>?//Validation?
 )
+
+data class CountyResponse(
+    val counties: Map<String, String>
+)
+
+data class DesignationResponse(
+    val designations: Map<String, String>
+)
+
+data class UniversalMap(
+    val code: String,
+    val value: String
+)
+
+//data class DesignationResponse(
+//    val designations: Map<String, String>
+//)
 
 data class UserRegistrationInfo(
     val User: PayloadData
@@ -32,8 +51,11 @@ data class UserRegistrationInfo(
 
 data class Validation(
     val username: List<String>?,
-    val email: List<String>?
+    val email: List<String>?,
+    val confirm_password: List<String>?,
+    val password: List<String>?
 )
+
 
 
 //{
