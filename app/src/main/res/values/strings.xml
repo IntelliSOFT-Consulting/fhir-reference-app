@@ -21,5 +21,7 @@
     <string name="register">Register Here</string>
     <string name="signup_prompt">Don\'t have an account? Sign up</string>
     <string name="login_prompt">Already have an account? Login</string>
+    <string name="county">County</string>
+    <string name="designation">Designation</string>
 
 </resources>
