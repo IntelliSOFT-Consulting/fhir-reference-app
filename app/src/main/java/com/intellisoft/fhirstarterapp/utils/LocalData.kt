@@ -3,6 +3,8 @@ package com.intellisoft.fhirstarterapp.utils
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.intellisoft.fhirstarterapp.R
 
 class LocalData {
@@ -29,5 +31,7 @@ class LocalData {
         editor.apply();
 
     }
+
+
 
 }
